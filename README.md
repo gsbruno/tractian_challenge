@@ -1,16 +1,15 @@
 # tractian_challenge
 
-A new Flutter project.
+A Flutter application developed as a technical challenge for Tractian. The app provides a hierarchical view of assets and their components, allowing users to monitor the status and sensor data of industrial equipment.
 
-## Getting Started
+### Key Features
+- Tree visualization of locations, assets, and components
+- Real-time status monitoring (Operating, Alert, Unavailable)
+- Sensor data tracking (Vibration, Energy consumption)
+- Company-based asset organization
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Technical Details
+- Clean Architecture principles
+- Domain-driven design
+- Type-safe error handling using tuples
+- Extensible entity system for status and sensor types
