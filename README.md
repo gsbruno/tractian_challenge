@@ -19,3 +19,8 @@ A Flutter application developed as a technical challenge for Tractian. The app p
 - Add tests and test it with a good coverage
 - Make the filtering more efficient
 - Give a better UI/UX
+
+### Demonstration
+
+https://github.com/user-attachments/assets/f597f03e-e387-4d09-926a-b305350cb44c
+
