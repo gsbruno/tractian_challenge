@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:tractian_challenge/core/utils/errors/local_errors.dart';
 import 'package:tractian_challenge/core/utils/types/types.dart';
 import 'package:tractian_challenge/feature/asset/domain/entities/asset.dart';
@@ -8,7 +9,8 @@ import 'package:tractian_challenge/feature/asset/domain/entities/status.dart';
 import 'package:tractian_challenge/feature/asset/domain/usecases/get_tree_usecase.dart';
 import 'package:tractian_challenge/shared/domain/usecases/usecase.dart';
 
-final class FilterTreeUsecase extends UseCase<Map<String, Node>, FilterTreeUsecaseParams> {
+final class FilterTreeUsecase
+    extends UseCase<Map<String, Node>, FilterTreeUsecaseParams> {
   FilterTreeUsecase();
 
   @override
@@ -17,6 +19,15 @@ final class FilterTreeUsecase extends UseCase<Map<String, Node>, FilterTreeUseca
       return (NoMatchingValue('Params'), null);
     }
 
+    final filteredTreeMap = await compute(_filter, params);
+
+    final result = await GetTreeUsecase()
+        .call(params: GetTreeUsecaseParams(nodes: filteredTreeMap));
+
+    return result;
+  }
+
+  Map<String, Node> _filter(FilterTreeUsecaseParams params) {
     List<Node> filteredTree = params.tree.values.toList();
 
     filteredTree = _filterByStatus(filteredTree, params.isStatusFilterActive);
@@ -27,23 +38,21 @@ final class FilterTreeUsecase extends UseCase<Map<String, Node>, FilterTreeUseca
 
     _addParent(filteredTree, params.tree);
 
-   final filteredTreeMap = _toMap(filteredTree);
-
-    final result = await GetTreeUsecase().call(params: GetTreeUsecaseParams(nodes: filteredTreeMap));
-
-    return result;
+    return _toMap(filteredTree);
   }
-  
+
   List<Node> _filterByStatus(List<Node> tree, bool isActive) {
     if (!isActive) {
       return tree;
     }
 
-    return tree.where((node) => switch (node) {
-      Asset(status: Alert _) => true,
-      Component(status: Alert _) => true,
-      _ => false,
-    }).toList();
+    return tree
+        .where((node) => switch (node) {
+              Asset(status: Alert _) => true,
+              Component(status: Alert _) => true,
+              _ => false,
+            })
+        .toList();
   }
 
   List<Node> _filterByEnergy(List<Node> tree, bool isActive) {
@@ -51,10 +60,12 @@ final class FilterTreeUsecase extends UseCase<Map<String, Node>, FilterTreeUseca
       return tree;
     }
 
-    return tree.where((node) => switch (node) {
-      Component(sensorType: Energy _) => true,
-      _ => false,
-    }).toList();
+    return tree
+        .where((node) => switch (node) {
+              Component(sensorType: Energy _) => true,
+              _ => false,
+            })
+        .toList();
   }
 
   List<Node> _filterByText(List<Node> tree, String text) {
@@ -62,7 +73,9 @@ final class FilterTreeUsecase extends UseCase<Map<String, Node>, FilterTreeUseca
       return tree;
     }
 
-    return tree.where((node) => node.name.toLowerCase().contains(text.toLowerCase())).toList();
+    return tree
+        .where((node) => node.name.toLowerCase().contains(text.toLowerCase()))
+        .toList();
   }
 
   void _addParent(List<Node> filteredTree, Map<String, Node> tree) {
@@ -70,7 +83,7 @@ final class FilterTreeUsecase extends UseCase<Map<String, Node>, FilterTreeUseca
       final node = filteredTree[i];
 
       node.clearChildren();
-      
+
       switch (node) {
         case Node(:final parentId?):
           filteredTree.add(tree[parentId]!);
