@@ -6,13 +6,13 @@ AppStyles get appStyle => AppStyles();
 final class AppStyles {
   TextStyle get mainButtonTextStyle => const TextStyle(
         fontSize: 34,
-        fontWeight: FontWeight.bold,
+        fontWeight: FontWeight.normal,
         overflow: TextOverflow.ellipsis,
       );
 
   TextStyle get secondaryButtonTextStyle => const TextStyle(
         fontSize: 21,
-        fontWeight: FontWeight.bold,
+        fontWeight: FontWeight.normal,
         overflow: TextOverflow.ellipsis,
       );
 
@@ -90,10 +90,11 @@ final class AppStyles {
             return AppColors.backgroundColor;
           },
         ),
-        shape: WidgetStatePropertyAll(RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-                side: const BorderSide(color: AppColors.onBackgroundColor),
-              ),
+        shape: WidgetStatePropertyAll(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+            side: const BorderSide(color: AppColors.onBackgroundColor),
+          ),
         ),
       );
 }

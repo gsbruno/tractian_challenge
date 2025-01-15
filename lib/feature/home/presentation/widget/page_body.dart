@@ -35,7 +35,7 @@ class _PageBodyState extends State<PageBody> with HomePageEvents {
               ? Padding(
                   padding: const EdgeInsets.only(bottom: 34),
                   child: PrimaryButton(
-                    height: 200,
+                    height: 100,
                     onPressed: () => goToCompanyPage(currentCompany.id),
                     asset: Assets.company,
                     text: currentCompany.name,
@@ -45,4 +45,3 @@ class _PageBodyState extends State<PageBody> with HomePageEvents {
         },
       );
 }
-

@@ -9,7 +9,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: AppColors.secondaryColor,
-      title: Image.asset(Assets.logo, height: preferredSize.height * 0.6),
+      title: Image.asset(Assets.logo, height: preferredSize.height * 0.45),
     );
   }
 

@@ -7,7 +7,7 @@ class TreeList extends StatelessWidget {
 
   final Map<String, Node> tree;
 
-  @override 
+  @override
   Widget build(BuildContext context) {
     return ListView.builder(
       shrinkWrap: true,

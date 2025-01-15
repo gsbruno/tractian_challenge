@@ -21,22 +21,22 @@ class PrimaryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton.icon(
       onPressed: onPressed,
-      icon: Image.asset(
-        asset,
-        height: 34,
-      ),
-      label: Padding(
-        padding: const EdgeInsets.only(left: 16),
-        child: Text(
-          text,
-          style: appStyle.mainButtonTextStyle,
+      icon: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 21),
+        child: Image.asset(
+          asset,
+          height: 21,
         ),
+      ),
+      label: Text(
+        text,
+        style: appStyle.secondaryButtonTextStyle,
       ),
       style: appStyle.primaryButtonStyle.copyWith(
-        minimumSize: WidgetStatePropertyAll(
-          Size(width ?? double.infinity, height ?? 60),
-        ),
-      ),
+          minimumSize: WidgetStatePropertyAll(
+            Size(width ?? double.infinity, height ?? 60),
+          ),
+          alignment: Alignment.centerLeft),
     );
   }
 }
