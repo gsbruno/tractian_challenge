@@ -10,11 +10,13 @@ import 'package:tractian_challenge/feature/asset/domain/usecases/get_all_assets_
 import 'package:tractian_challenge/feature/asset/domain/usecases/get_all_locations_usecase.dart';
 import 'package:tractian_challenge/shared/domain/usecases/usecase.dart';
 
-final class GetAllNodesUsecase extends UseCase<Map<String, Node>, GetAllNodesUsecaseParams> {
+final class GetAllNodesUsecase
+    extends UseCase<Map<String, Node>, GetAllNodesUsecaseParams> {
   GetAllNodesUsecase();
 
   @override
-  Output<Map<String, Node>> call({GetAllNodesUsecaseParams? params}) async {
+  FutureOutput<Map<String, Node>> call(
+      {GetAllNodesUsecaseParams? params}) async {
     if (params == null) {
       return (NoMatchingValue('Params'), null);
     }
@@ -39,7 +41,7 @@ final class GetAllNodesUsecase extends UseCase<Map<String, Node>, GetAllNodesUse
 
     nodes.addAll(_createAssetNodes(allAssets ?? []));
 
-    return (null, nodes);
+    return (null, _setParents(nodes));
   }
 
   Map<String, Node> _createLocationNodes(List<LocationModel> locations) {
@@ -56,8 +58,20 @@ final class GetAllNodesUsecase extends UseCase<Map<String, Node>, GetAllNodesUse
     final nodes = <String, Node>{};
 
     for (var asset in assets) {
-      nodes[asset.id] = asset.isComponent ? 
-    Component.fromModel(asset) : Asset.fromModel(asset);
+      nodes[asset.id] = asset.isComponent
+          ? Component.fromModel(asset)
+          : Asset.fromModel(asset);
+    }
+
+    return nodes;
+  }
+
+  Map<String, Node> _setParents(Map<String, Node> nodes) {
+    for (var node in nodes.values) {
+      if (node.parent != null) {
+        node.parentNode = nodes[node.parent!];
+        node.parentNode?.addChild(node);
+      }
     }
 
     return nodes;

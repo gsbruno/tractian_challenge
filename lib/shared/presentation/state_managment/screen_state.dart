@@ -1,7 +1,8 @@
-import 'package:tractian_challenge/core/utils/errors/commom_errors.dart' as utils;
+import 'package:tractian_challenge/core/utils/errors/commom_errors.dart'
+    as utils;
 import 'package:tractian_challenge/shared/presentation/state_managment/screen_data.dart';
 
-sealed class ScreenState<T extends ScreenData> {  
+sealed class ScreenState<T extends ScreenData> {
   const ScreenState(this._data);
 
   final T? _data;
@@ -27,7 +28,7 @@ final class Error<T extends ScreenData> extends ScreenState<T> {
   final utils.CommomError error;
 
   @override
-  String toString() => 'Error: $error';
+  String toString() => 'Error';
 }
 
 final class Ready<T extends ScreenData> extends ScreenState<T> {
@@ -36,5 +37,5 @@ final class Ready<T extends ScreenData> extends ScreenState<T> {
   T get data => _data as T;
 
   @override
-  String toString() => 'Ready: $data';
+  String toString() => 'Ready';
 }

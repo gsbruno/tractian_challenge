@@ -4,23 +4,31 @@ import 'package:tractian_challenge/core/styles/app_colors.dart';
 AppStyles get appStyle => AppStyles();
 
 final class AppStyles {
-  TextStyle get mainButtonTextStyle => const TextStyle(
-        fontSize: 34,
+  TextStyle get homeButtonTextStyle => const TextStyle(
+        fontSize: 21,
         fontWeight: FontWeight.normal,
         overflow: TextOverflow.ellipsis,
+        color: AppColors.white,
       );
 
-  TextStyle get secondaryButtonTextStyle => const TextStyle(
+  TextStyle get titleTextStyle => const TextStyle(
+        fontSize: 21,
+        fontWeight: FontWeight.normal,
+        overflow: TextOverflow.ellipsis,
+        color: AppColors.white,
+      );
+
+  TextStyle get assetButtonTextStyle => const TextStyle(
         fontSize: 21,
         fontWeight: FontWeight.normal,
         overflow: TextOverflow.ellipsis,
       );
 
   TextStyle get searchBarTextStyle => const TextStyle(
-        fontSize: 13,
-        fontWeight: FontWeight.bold,
+        fontSize: 21,
+        fontWeight: FontWeight.normal,
         overflow: TextOverflow.ellipsis,
-        color: AppColors.onBackgroundColor,
+        color: AppColors.grey3,
       );
 
   TextStyle get listItemTextStyle => const TextStyle(
@@ -29,71 +37,42 @@ final class AppStyles {
         overflow: TextOverflow.ellipsis,
       );
 
-  ButtonStyle get primaryButtonStyle => ButtonStyle(
-        foregroundColor: WidgetStateProperty.resolveWith(
-          (states) {
-            if (states.contains(WidgetState.disabled)) {
-              return AppColors.onBackgroundColor;
-            }
-            if (states.contains(WidgetState.hovered)) {
-              return AppColors.onSecondaryColor;
-            }
-            return AppColors.onPrimaryColor;
-          },
-        ),
+  ButtonStyle get homeButtonStyle => ButtonStyle(
         backgroundColor: WidgetStateProperty.resolveWith(
           (states) {
-            if (states.contains(WidgetState.disabled)) {
-              return AppColors.backgroundColor;
-            }
             if (states.contains(WidgetState.hovered)) {
-              return AppColors.secondaryColor;
+              return AppColors.blue.withOpacity(0.8);
             }
-            return AppColors.primaryColor;
+            return AppColors.blue;
           },
         ),
-        shape: WidgetStateProperty.resolveWith(
-          (states) {
-            if (states.contains(WidgetState.disabled)) {
-              return RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
-                side: const BorderSide(color: AppColors.onBackgroundColor),
-              );
-            }
-            return RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            );
-          },
+        shape: WidgetStateProperty.all(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
         ),
+        minimumSize: const WidgetStatePropertyAll(
+          Size(100, 100),
+        ),
+        alignment: Alignment.centerLeft,
       );
 
-  ButtonStyle get secondaryButtonStyle => ButtonStyle(
-        foregroundColor: WidgetStateProperty.resolveWith(
-          (states) {
-            if (states.contains(WidgetState.disabled)) {
-              return AppColors.onSecondaryColor;
-            }
-            if (states.contains(WidgetState.hovered)) {
-              return AppColors.onBackgroundColor;
-            }
-            return AppColors.onBackgroundColor;
-          },
-        ),
+  ButtonStyle get assetButtonStyle => ButtonStyle(
         backgroundColor: WidgetStateProperty.resolveWith(
           (states) {
-            if (states.contains(WidgetState.disabled)) {
-              return AppColors.secondaryColor;
-            }
             if (states.contains(WidgetState.hovered)) {
-              return AppColors.backgroundColor;
+              return AppColors.grey1;
             }
-            return AppColors.backgroundColor;
+            return AppColors.white;
           },
         ),
         shape: WidgetStatePropertyAll(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
-            side: const BorderSide(color: AppColors.onBackgroundColor),
+            side: const BorderSide(
+              color: AppColors.grey2,
+              width: 3,
+            ),
           ),
         ),
       );

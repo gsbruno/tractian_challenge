@@ -9,7 +9,8 @@ final class GetAllLocationsUsecase
   GetAllLocationsUsecase();
 
   @override
-  Output<List<LocationModel>> call({GetAllLocationsUsecaseParams? params}) async {
+  FutureOutput<List<LocationModel>> call(
+      {GetAllLocationsUsecaseParams? params}) async {
     if (params == null) {
       return (NoMatchingValue('Params'), null);
     }

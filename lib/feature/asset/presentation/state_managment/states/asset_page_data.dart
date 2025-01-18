@@ -5,34 +5,32 @@ import 'package:tractian_challenge/shared/presentation/state_managment/screen_da
 final class AssetPageData extends ScreenData<AssetPageData>
     with EquatableMixin {
   const AssetPageData._({
-    required this.allNodes,
     required this.tree,
+    this.visibleNodes = const {},
     this.isEnergyFilterActive = false,
     this.isStatusFilterActive = false,
     this.searchText = '',
   });
 
   factory AssetPageData.init() => const AssetPageData._(
-        allNodes: {},
-        tree: {},
+        tree: [],
+        visibleNodes: {},
         isEnergyFilterActive: false,
         isStatusFilterActive: false,
         searchText: '',
       );
 
   const AssetPageData.set({
-    this.allNodes = const {},
-    this.tree = const {},
+    this.tree = const [],
+    this.visibleNodes = const {},
     this.isEnergyFilterActive = false,
     this.isStatusFilterActive = false,
     this.searchText = '',
   });
 
-  final Map<String, Node> allNodes;
+  final List<Node> tree;
 
-  final Map<String, Node> tree;
-
-  Map<String, Node> get roots => Map.fromIterable(tree.values.where((node) => node.isRoot), key: (node) => node.id, value: (node) => node);
+  final Map<String, bool> visibleNodes;
 
   final bool isEnergyFilterActive;
 
@@ -42,15 +40,15 @@ final class AssetPageData extends ScreenData<AssetPageData>
 
   @override
   AssetPageData changeWith({
-    Map<String, Node>? allNodes,
-    Map<String, Node>? tree,
+    List<Node>? tree,
+    Map<String, bool>? visibleNodes,
     bool? isEnergyFilterActive,
     bool? isStatusFilterActive,
     String? searchText,
   }) {
     return AssetPageData.set(
-      allNodes: allNodes ?? this.allNodes,
       tree: tree ?? this.tree,
+      visibleNodes: visibleNodes ?? this.visibleNodes,
       isEnergyFilterActive: isEnergyFilterActive ?? this.isEnergyFilterActive,
       isStatusFilterActive: isStatusFilterActive ?? this.isStatusFilterActive,
       searchText: searchText ?? this.searchText,
@@ -59,8 +57,8 @@ final class AssetPageData extends ScreenData<AssetPageData>
 
   @override
   List<Object?> get props => [
-        allNodes,
         tree,
+        visibleNodes,
         isEnergyFilterActive,
         isStatusFilterActive,
         searchText,

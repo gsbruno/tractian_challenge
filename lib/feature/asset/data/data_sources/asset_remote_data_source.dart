@@ -10,7 +10,7 @@ final class AssetRemoteDataSource extends RemoteDataSource<AssetModel> {
   ServerUrls get serverUrl => ServerUrls.assets;
 
   @override
-  Output<List<AssetModel>> getAllById({required String id}) async {
+  FutureOutput<List<AssetModel>> getAllById({required String id}) async {
     try {
       final response = await callGetAllById(id: id);
 

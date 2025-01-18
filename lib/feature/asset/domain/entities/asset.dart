@@ -1,4 +1,5 @@
-import 'package:tractian_challenge/core/utils/constants/assets.dart';
+import 'package:flutter/material.dart';
+import 'package:tractian_challenge/core/utils/constants/tractian_icons_icons.dart';
 import 'package:tractian_challenge/feature/asset/data/models/asset_model.dart';
 import 'package:tractian_challenge/feature/asset/domain/entities/node.dart';
 import 'package:tractian_challenge/feature/asset/domain/entities/sensor_type.dart';
@@ -16,16 +17,17 @@ final class Asset extends Node {
     this.locationId,
   });
 
-  Asset.fromModel(AssetModel asset) : this(
-    id: asset.id,
-    name: asset.name,
-    sensorId: asset.sensorId,
-    sensorType: asset.sensorType.sensorType,
-    status: asset.status.status,
-    parentId: asset.parentId,
-    gatewayId: asset.gatewayId,
-    locationId: asset.locationId,
-  );
+  Asset.fromModel(AssetModel asset)
+      : this(
+          id: asset.id,
+          name: asset.name,
+          sensorId: asset.sensorId,
+          sensorType: asset.sensorType.sensorType,
+          status: asset.status.status,
+          parentId: asset.parentId,
+          gatewayId: asset.gatewayId,
+          locationId: asset.locationId,
+        );
 
   final String? sensorId;
   final SensorType sensorType;
@@ -34,11 +36,19 @@ final class Asset extends Node {
   final String? locationId;
 
   @override
-  String get asset => Assets.asset;
+  IconData get asset => TractianIcons.asset;
 
   @override
-  bool get isRoot => parentId == null && locationId == null;
+  String? get parent => parentId ?? locationId;
 
   @override
-  String toString() => 'sensorType: $sensorType, status: $status';
+  bool get hasEnergy =>
+      sensorType is Energy || children.any((child) => child.hasEnergy);
+
+  @override
+  bool get hasAlert =>
+      status is Alert || children.any((child) => child.hasAlert);
+
+  @override
+  String toString() => '${super.toString()}, $sensorType, $status';
 }

@@ -9,8 +9,8 @@ final class GetAllAssetsUsecase
   GetAllAssetsUsecase();
 
   @override
-  Output<List<AssetModel>> call({GetAllAssetsUsecaseParams? params}) async {
-
+  FutureOutput<List<AssetModel>> call(
+      {GetAllAssetsUsecaseParams? params}) async {
     if (params == null) {
       return (NoMatchingValue('Params'), null);
     }
@@ -26,4 +26,3 @@ final class GetAllAssetsUsecaseParams extends Params {
 
   final String companyId;
 }
-

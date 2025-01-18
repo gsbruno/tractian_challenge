@@ -13,6 +13,9 @@ A Flutter application developed as a technical challenge for Tractian. The app p
 - Domain-driven design
 - Type-safe error handling using tuples
 - Extensible entity system for status and sensor types
+- Use of GetIt for dependency injection
+- Isolate the UI from the business logic
+- Uses a separate Isolate to fetch and filter the data
 
 ### Improvements
 - Add comments to the code to explain the purpose of each class and function
@@ -20,6 +23,8 @@ A Flutter application developed as a technical challenge for Tractian. The app p
 - Make the filtering more efficient
 - Give a better UI/UX
 - Make a refactoring to clean the code and improve the architecture
+- Can improve a lot on the organization of the code.
+- Structure the tree better to improve the performance.
 
 ### Demonstration
 

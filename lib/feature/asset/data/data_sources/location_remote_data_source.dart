@@ -10,7 +10,7 @@ final class LocationRemoteDataSource extends RemoteDataSource<LocationModel> {
   ServerUrls get serverUrl => ServerUrls.locations;
 
   @override
-  Output<List<LocationModel>> getAllById({required String id}) async {
+  FutureOutput<List<LocationModel>> getAllById({required String id}) async {
     try {
       final response = await callGetAllById(id: id);
 

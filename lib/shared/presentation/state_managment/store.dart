@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:signals/signals_flutter.dart';
 import 'package:tractian_challenge/core/utils/data_stack.dart';
 
-import 'package:tractian_challenge/core/utils/errors/commom_errors.dart' as utils;
+import 'package:tractian_challenge/core/utils/errors/commom_errors.dart'
+    as utils;
 import 'package:tractian_challenge/shared/presentation/state_managment/screen_data.dart';
 import 'package:tractian_challenge/shared/presentation/state_managment/screen_state.dart';
 import 'package:tractian_challenge/shared/presentation/widget/simple_popup.dart';
@@ -46,9 +47,7 @@ class Store<T extends ScreenData<T>> {
   EffectCleanup popUpErrorEffect(BuildContext context) {
     return effect(() {
       if (state.value case Error(:final error)) {
-        SimplePopup.show(context,
-                title: 'Error', content: error.message)
-            .then(
+        SimplePopup.show(context, title: 'Error', content: error.message).then(
           (_) => treatError(error),
         );
       }

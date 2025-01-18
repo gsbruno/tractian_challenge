@@ -3,13 +3,11 @@ import 'package:tractian_challenge/feature/home/data/data_sources/company_remote
 import 'package:tractian_challenge/feature/home/data/models/company_model.dart';
 import 'package:tractian_challenge/shared/domain/usecases/usecase.dart';
 
-final class GetAllCompaniesUsecase
-    extends UseCase<List<CompanyModel>, Params> {
+final class GetAllCompaniesUsecase extends UseCase<List<CompanyModel>, Params> {
   GetAllCompaniesUsecase();
 
   @override
-  Output<List<CompanyModel>> call({Params? params}) async {
-    
+  FutureOutput<List<CompanyModel>> call({Params? params}) async {
     final dataSource = CompanyRemoteDataSource();
 
     return await dataSource.getAll();

@@ -54,27 +54,24 @@ abstract base class RemoteDataSource<T extends Model> {
     );
   }
 
-  Output<List<T>> getAllById({required String id}) async => (UnimplementedError(), null);
+  FutureOutput<List<T>> getAllById({required String id}) async =>
+      (UnimplementedError(), null);
 
   @protected
   Future<List> callGetAllById({required String id}) async {
     try {
-      return await dio
-          .get<List>(serverUrl.idUrl(id))
-          .solve();
+      return await dio.get<List>(serverUrl.idUrl(id)).solve();
     } catch (e) {
       rethrow;
     }
   }
 
-  Output<List<T>> getAll() async => (UnimplementedError(), null);
+  FutureOutput<List<T>> getAll() async => (UnimplementedError(), null);
 
   @protected
   Future<List> callGetAll() async {
     try {
-      return await dio
-          .get<List>(serverUrl.path)
-          .solve();
+      return await dio.get<List>(serverUrl.path).solve();
     } catch (e) {
       rethrow;
     }

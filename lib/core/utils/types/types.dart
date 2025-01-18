@@ -4,4 +4,6 @@ typedef QueryParameters = Map<String, dynamic>?;
 
 typedef Json = Map<String, dynamic>;
 
-typedef Output<T> = Future<(CommomError?, T?)>;
+typedef FutureOutput<T> = Future<(CommomError?, T?)>;
+
+typedef Output<T> = (CommomError?, T?);

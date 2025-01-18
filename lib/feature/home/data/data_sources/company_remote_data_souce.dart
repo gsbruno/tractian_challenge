@@ -10,7 +10,7 @@ final class CompanyRemoteDataSource extends RemoteDataSource<CompanyModel> {
   ServerUrls get serverUrl => ServerUrls.companies;
 
   @override
-  Output<List<CompanyModel>> getAll() async {
+  FutureOutput<List<CompanyModel>> getAll() async {
     try {
       final response = await callGetAll();
 

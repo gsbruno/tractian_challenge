@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 import 'package:signals/signals.dart';
 import 'package:tractian_challenge/feature/asset/presentation/state_managment/stores/asset_page_store.dart';
 
@@ -12,7 +13,8 @@ mixin AssetPageEvents<T extends StatefulWidget> on State<T> {
   @override
   void initState() {
     super.initState();
-    store = AssetPageStore.init(companyId: companyId);
+    store = GetIt.I.registerSingletonIfAbsent<AssetPageStore>(
+        () => AssetPageStore.init(companyId: companyId));
 
     _initEffects();
 
@@ -20,26 +22,7 @@ mixin AssetPageEvents<T extends StatefulWidget> on State<T> {
   }
 
   void _initEffects() async {
-    effects
-        .add(store.popUpErrorEffect(context));
-  }
-
-  bool get isEnergyFilterActive => store.data?.isEnergyFilterActive ?? false;
-
-  bool get isCriticalFilterActive => store.data?.isStatusFilterActive ?? false;
-
-  String get energyFilterText => store.data?.searchText ?? '';
-
-  void changeEnergyFilter() {
-    store.filterByEnergy(!(store.data?.isEnergyFilterActive ?? true));
-  }
-
-  void changeStatusFilter() {
-    store.filterByStatus(!(store.data?.isStatusFilterActive ?? true));
-  }
-
-  void changeTextFilter(String searchText) {
-    store.filterByText(searchText);
+    effects.add(store.popUpErrorEffect(context));
   }
 
   void _disposeEffects() {
@@ -53,6 +36,8 @@ mixin AssetPageEvents<T extends StatefulWidget> on State<T> {
   @override
   void dispose() {
     _disposeEffects();
+    store.loadWorker.dispose();
+    GetIt.I.unregister<AssetPageStore>();
     super.dispose();
   }
 }

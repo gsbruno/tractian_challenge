@@ -1,34 +1,33 @@
-import 'package:flutter/foundation.dart';
 import 'package:tractian_challenge/core/utils/errors/local_errors.dart';
 import 'package:tractian_challenge/core/utils/types/types.dart';
-import 'package:tractian_challenge/feature/asset/domain/entities/asset.dart';
-import 'package:tractian_challenge/feature/asset/domain/entities/component.dart';
 import 'package:tractian_challenge/feature/asset/domain/entities/node.dart';
-import 'package:tractian_challenge/feature/asset/domain/entities/sensor_type.dart';
-import 'package:tractian_challenge/feature/asset/domain/entities/status.dart';
-import 'package:tractian_challenge/feature/asset/domain/usecases/get_tree_usecase.dart';
 import 'package:tractian_challenge/shared/domain/usecases/usecase.dart';
 
 final class FilterTreeUsecase
-    extends UseCase<Map<String, Node>, FilterTreeUsecaseParams> {
+    extends UseCase<List<Node>, FilterTreeUsecaseParams> {
   FilterTreeUsecase();
 
   @override
-  Output<Map<String, Node>> call({FilterTreeUsecaseParams? params}) async {
+  FutureOutput<List<Node>> call({FilterTreeUsecaseParams? params}) async {
     if (params == null) {
       return (NoMatchingValue('Params'), null);
     }
 
-    final filteredTreeMap = await compute(_filter, params);
+    final filteredTreeMap = _filter(params);
 
-    final result = await GetTreeUsecase()
-        .call(params: GetTreeUsecaseParams(nodes: filteredTreeMap));
-
-    return result;
+    return (null, filteredTreeMap);
   }
 
-  Map<String, Node> _filter(FilterTreeUsecaseParams params) {
-    List<Node> filteredTree = params.tree.values.toList();
+  List<Node> _filter(FilterTreeUsecaseParams params) {
+    Iterable<Node> filteredTree = params.fullTree.values;
+
+    if (!params.isEnergyFilterActive &&
+        !params.isStatusFilterActive &&
+        params.searchText.isEmpty) {
+      filteredTree = filteredTree.where((node) => node.isRoot);
+
+      return filteredTree.expand((node) => node.flat).toList();
+    }
 
     filteredTree = _filterByStatus(filteredTree, params.isStatusFilterActive);
 
@@ -36,78 +35,37 @@ final class FilterTreeUsecase
 
     filteredTree = _filterByText(filteredTree, params.searchText);
 
-    _addParent(filteredTree, params.tree);
-
-    return _toMap(filteredTree);
+    return filteredTree
+        .expand((node) => node.flat)
+        .where((node) =>
+            (params.isEnergyFilterActive && node.hasEnergy) ||
+            (params.isStatusFilterActive && node.hasAlert) ||
+            (params.searchText.isNotEmpty && node.hasText(params.searchText)))
+        .toList();
   }
 
-  List<Node> _filterByStatus(List<Node> tree, bool isActive) {
+  Iterable<Node> _filterByStatus(Iterable<Node> tree, bool isActive) {
     if (!isActive) {
       return tree;
     }
 
-    return tree
-        .where((node) => switch (node) {
-              Asset(status: Alert _) => true,
-              Component(status: Alert _) => true,
-              _ => false,
-            })
-        .toList();
+    return tree.where((node) => node.isRoot && node.hasAlert);
   }
 
-  List<Node> _filterByEnergy(List<Node> tree, bool isActive) {
+  Iterable<Node> _filterByEnergy(Iterable<Node> tree, bool isActive) {
     if (!isActive) {
       return tree;
     }
 
-    return tree
-        .where((node) => switch (node) {
-              Component(sensorType: Energy _) => true,
-              _ => false,
-            })
-        .toList();
+    return tree.where((node) => node.isRoot && node.hasEnergy);
   }
 
-  List<Node> _filterByText(List<Node> tree, String text) {
+  Iterable<Node> _filterByText(Iterable<Node> tree, String text) {
     if (text.isEmpty) {
       return tree;
     }
 
-    return tree
-        .where((node) => node.name.toLowerCase().contains(text.toLowerCase()))
-        .toList();
-  }
-
-  void _addParent(List<Node> filteredTree, Map<String, Node> tree) {
-    for (int i = 0; i < filteredTree.length; i++) {
-      final node = filteredTree[i];
-
-      node.clearChildren();
-
-      switch (node) {
-        case Node(:final parentId?):
-          filteredTree.add(tree[parentId]!);
-          break;
-        case Component(:final locationId?):
-          filteredTree.add(tree[locationId]!);
-          break;
-        case Asset(:final locationId?):
-          filteredTree.add(tree[locationId]!);
-          break;
-        default:
-          break;
-      }
-    }
-  }
-
-  Map<String, Node> _toMap(List<Node> filteredTree) {
-    final filteredTreeMap = <String, Node>{};
-
-    for (var node in filteredTree) {
-      filteredTreeMap[node.id] = node;
-    }
-
-    return filteredTreeMap;
+    return tree.where((node) => node.isRoot && node.hasText(text));
   }
 }
 
@@ -116,11 +74,11 @@ final class FilterTreeUsecaseParams extends Params {
     required this.isEnergyFilterActive,
     required this.isStatusFilterActive,
     required this.searchText,
-    required this.tree,
+    required this.fullTree,
   });
 
   final bool isEnergyFilterActive;
   final bool isStatusFilterActive;
   final String searchText;
-  final Map<String, Node> tree;
+  final Map<String, Node> fullTree;
 }

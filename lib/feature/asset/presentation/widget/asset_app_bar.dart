@@ -8,11 +8,11 @@ class AssetAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: AppColors.secondaryColor,
-      foregroundColor: AppColors.onSecondaryColor,
+      backgroundColor: AppColors.darkBlue,
+      foregroundColor: AppColors.white,
       title: Text(
         'Assets',
-        style: appStyle.mainButtonTextStyle.copyWith(color: AppColors.onSecondaryColor),
+        style: appStyle.titleTextStyle,
       ),
     );
   }

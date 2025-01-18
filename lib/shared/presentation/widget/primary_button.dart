@@ -3,40 +3,39 @@ import 'package:tractian_challenge/core/styles/app_styles.dart';
 
 class PrimaryButton extends StatelessWidget {
   final VoidCallback? onPressed;
-  final String asset;
+  final IconData icon;
   final String text;
-  final double? width;
-  final double? height;
+  final TextStyle? textStyle;
+  final ButtonStyle? style;
 
   const PrimaryButton({
     super.key,
     required this.onPressed,
-    required this.asset,
+    required this.icon,
     required this.text,
-    this.width,
-    this.height,
+    this.textStyle,
+    this.style,
   });
 
   @override
   Widget build(BuildContext context) {
+    final textStyle = this.textStyle ?? appStyle.homeButtonTextStyle;
+
     return TextButton.icon(
       onPressed: onPressed,
       icon: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 21),
-        child: Image.asset(
-          asset,
-          height: 21,
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Icon(
+          icon,
+          color: textStyle.color,
+          size: textStyle.fontSize,
         ),
       ),
       label: Text(
         text,
-        style: appStyle.secondaryButtonTextStyle,
+        style: textStyle,
       ),
-      style: appStyle.primaryButtonStyle.copyWith(
-          minimumSize: WidgetStatePropertyAll(
-            Size(width ?? double.infinity, height ?? 60),
-          ),
-          alignment: Alignment.centerLeft),
+      style: style,
     );
   }
 }

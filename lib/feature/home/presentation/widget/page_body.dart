@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:signals/signals_flutter.dart';
 import 'package:super_sliver_list/super_sliver_list.dart';
-import 'package:tractian_challenge/core/utils/constants/assets.dart';
+import 'package:tractian_challenge/core/styles/app_styles.dart';
+import 'package:tractian_challenge/core/utils/constants/tractian_icons_icons.dart';
 import 'package:tractian_challenge/feature/home/presentation/state_managment/events/home_page_events.dart';
 import 'package:tractian_challenge/shared/presentation/state_managment/screen_state.dart';
 import 'package:tractian_challenge/shared/presentation/widget/primary_button.dart';
@@ -35,10 +36,11 @@ class _PageBodyState extends State<PageBody> with HomePageEvents {
               ? Padding(
                   padding: const EdgeInsets.only(bottom: 34),
                   child: PrimaryButton(
-                    height: 100,
                     onPressed: () => goToCompanyPage(currentCompany.id),
-                    asset: Assets.company,
+                    icon: TractianIcons.company,
                     text: currentCompany.name,
+                    textStyle: appStyle.homeButtonTextStyle,
+                    style: appStyle.homeButtonStyle,
                   ),
                 )
               : const SizedBox.shrink();

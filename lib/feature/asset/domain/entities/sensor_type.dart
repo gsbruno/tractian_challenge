@@ -1,10 +1,14 @@
-import 'package:tractian_challenge/core/utils/constants/assets.dart';
+import 'package:flutter/material.dart';
+import 'package:tractian_challenge/core/utils/constants/tractian_icons_icons.dart';
 
 base class SensorType {
   SensorType({required this.value, this.asset});
 
   final String value;
-  final String? asset;
+  final IconData? asset;
+
+  @override
+  String toString() => 'SensorType($value)';
 }
 
 final class Vibration extends SensorType {
@@ -12,7 +16,7 @@ final class Vibration extends SensorType {
 }
 
 final class Energy extends SensorType {
-  Energy() : super(value: 'energy', asset: Assets.energy);
+  Energy() : super(value: 'energy', asset: TractianIcons.energy);
 }
 
 final class Unknown extends SensorType {
