@@ -28,5 +28,4 @@ A Flutter application developed as a technical challenge for Tractian. The app p
 
 ### Demonstration
 
-https://github.com/user-attachments/assets/f597f03e-e387-4d09-926a-b305350cb44c
-
+https://github.com/user-attachments/assets/c10f4a6e-4c61-43e9-89cc-1f4014a7bed4
